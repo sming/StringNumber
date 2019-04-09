@@ -1,32 +1,31 @@
 using System;
 using Xunit;
 using Org.Kingswell.Peter;
+using System.Numerics;
 
 namespace Org.Kingswell.Peter.UnitTests
 {
     public class UnitTests
     {
         [Fact]
-        public void ConvertStringToIntTest()
+        public void ConvertStringToBigIntTest()
         {
-            Assert.Equal(123, StringNumber.convertStringToInt("123"));
-            Assert.Equal(1, StringNumber.convertStringToInt("1"));
-            Assert.Equal(0, StringNumber.convertStringToInt("0"));
-            Assert.Equal(int.MaxValue, StringNumber.convertStringToInt("2147483647"));
-
-            // Test that strings representing numbers larger than ints do not overflow
-            long intOverflow = int.MaxValue + 5L;
-            Assert.Equal(int.MaxValue, StringNumber.convertStringToInt(intOverflow.ToString()));
+            Assert.Equal(123, StringNumber.convertStringToBigInt("123"));
+            Assert.Equal(1, StringNumber.convertStringToBigInt("1"));
+            Assert.Equal(0, StringNumber.convertStringToBigInt("0"));
+            Assert.Equal(int.MaxValue, StringNumber.convertStringToBigInt("2147483647"));
+            Assert.Equal(long.MaxValue, StringNumber.convertStringToBigInt("9223372036854775807"));
+            Assert.Equal(BigInteger.Parse("33333333333333333333"), StringNumber.convertStringToBigInt("33333333333333333333"));
         }
 
         [Fact]
         public void ToNumberTest()
         {
-            Assert.Equal(123, (int)new StringNumber(123));
-            Assert.Equal(123, (int)new StringNumber("123"));
-            Assert.Equal(103, (int)new StringNumber("1a3"));
-            Assert.Equal(103, (int)new StringNumber("a1a3"));
-            Assert.Equal(20103, (int)new StringNumber("2a1a3"));
+            Assert.Equal(123, (BigInteger)new StringNumber(123));
+            Assert.Equal(123, (BigInteger)new StringNumber("123"));
+            Assert.Equal(103, (BigInteger)new StringNumber("1a3"));
+            Assert.Equal(103, (BigInteger)new StringNumber("a1a3"));
+            Assert.Equal(20103, (BigInteger)new StringNumber("2a1a3"));
         }
 
 

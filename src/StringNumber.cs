@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -27,6 +28,11 @@ namespace Org.Kingswell.Peter
             Initialise(n, nonDigitReplacement);
         }
 
+        public StringNumber(long n, char nonDigitReplacement = DEFAULT_NON_DIGIT_REPLACEMENT)
+        {
+            Initialise(n, nonDigitReplacement);
+        }
+
         public StringNumber(short n, char nonDigitReplacement = DEFAULT_NON_DIGIT_REPLACEMENT)
         {
             Initialise(n, nonDigitReplacement);
@@ -43,7 +49,15 @@ namespace Org.Kingswell.Peter
             InitialValue = n.ToString();
         }
 
-        public static explicit operator int(StringNumber s) => s.ToNumber();
+        public StringNumber(BigInteger n, char nonDigitReplacement = DEFAULT_NON_DIGIT_REPLACEMENT)
+        {
+            NonDigitReplacement = nonDigitReplacement;
+            InitialValue = n.ToString();
+        }
+
+        // public static explicit operator int(StringNumber s) => (int)s.ToNumber();
+        public static explicit operator BigInteger(StringNumber s) => (int)s.ToNumber();
+
 
         public override string ToString()
         {
@@ -76,15 +90,13 @@ namespace Org.Kingswell.Peter
             if (a == null || b == null)
                 return null;
 
-            int aNum = (int)a;
-            int bNum = (int)b;
-            int result = aNum + bNum;
+            var aNum = (BigInteger)a;
+            var bNum = (BigInteger)b;
+            var result = aNum + bNum;
 
             int aLen = a.InitialValue.Length;
             int bLen = b.InitialValue.Length;
             int longestLength = Math.Max(aLen, bLen);
-            // int rawResultLength = result.ToString().Length;
-            // int leadingNumberOfZerosNeeded = Math.Abs(longestLength - rawResultLength);
 
             string resultStr = result.ToString("D" + longestLength);
 
@@ -112,7 +124,7 @@ namespace Org.Kingswell.Peter
                 return !Char.IsDigit(s[index]);
         }
 
-        private int ToNumber()
+        private BigInteger ToNumber()
         {
             var sb = new StringBuilder();
             foreach (char c in InitialValue)
@@ -122,29 +134,28 @@ namespace Org.Kingswell.Peter
 
             // Since the requirements state "Do not use parseInt or any other large integer library",
             // we have to do the conversion ourselves.
-            return convertStringToInt(sb.ToString());
+            return convertStringToBigInt(sb.ToString());
         }
 
-        internal static int convertStringToInt(string s)
+        internal static BigInteger convertStringToBigInt(string s)
         {
-            long result = 0;
+            var result = new BigInteger(0);
             int sLength = s.Length;
             for (int i = 0; i < sLength; i++)
             {
-                // We don't bother testing that the current char is a digit since it's 'internal' and
-                // only ever called from ToNumber().
+                // We don't bother testing that the current char is a digit since this method is
+                // 'internal' and only ever called from ToNumber().
 
                 // We know that char '0' is the 'first' digit so we can subtract it's integer value
                 // from the digit's integer value to get the digit's 'actual' integer value
                 int digit = s[i] - '0';
                 if (digit > 0)
                 {
-                    // TODO test very large numbers don't overflow
-                    result += Math.Min(int.MaxValue, digit * (int)Math.Pow(10, sLength - (i + 1)));
+                    result = result + (digit * BigInteger.Pow(10, sLength - (i + 1)));
                 }
             }
 
-            return result > int.MaxValue ? int.MaxValue : (int)result;
+            return result;
         }
     }
 }
