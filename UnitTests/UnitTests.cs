@@ -22,6 +22,7 @@ namespace Org.Kingswell.Peter.UnitTests
         public void ToNumberTest()
         {
             Assert.Equal(123, (BigInteger)new StringNumber(123));
+            Assert.Equal(0123, (BigInteger)new StringNumber(0123));
             Assert.Equal(123, (BigInteger)new StringNumber("123"));
             Assert.Equal(103, (BigInteger)new StringNumber("1a3"));
             Assert.Equal(103, (BigInteger)new StringNumber("a1a3"));
@@ -37,8 +38,8 @@ namespace Org.Kingswell.Peter.UnitTests
             Assert.Equal("333", (string)(new StringNumber("111") + new StringNumber("222")));
             Assert.Equal("2003", (string)(new StringNumber("1001") + new StringNumber("1002")));
             Assert.Equal("002003", (string)(new StringNumber("001001") + new StringNumber("001002")));
-            string actual = (string)(new StringNumber("a234") + new StringNumber("00a1"));
-            Assert.Equal("x2x5", actual);
+            Assert.Equal("x2x5", (string)(new StringNumber("a234") + new StringNumber("00a1")));
+            Assert.Equal("xx73", (string)(new StringNumber("a239") + new StringNumber("0a34")));
             Assert.Equal("33333333333333333333", (string)(new StringNumber("11111111111111111111") + new StringNumber("22222222222222222222")));
         }
 
@@ -55,6 +56,8 @@ namespace Org.Kingswell.Peter.UnitTests
         public void UserSpecifiedCharacterTest()
         {
             Assert.Equal("qqqq", (string)(new StringNumber("aaaa", 'q') + new StringNumber("1234")));
+            Assert.Equal("qqqq", (string)(new StringNumber("aaaa", 'q') + new StringNumber("1234", 'r')));
+            Assert.Equal("rrrr", (string)(new StringNumber("aaaa", 'r') + new StringNumber("1234", 'q')));
         }
     }
 }
