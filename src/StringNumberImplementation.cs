@@ -18,7 +18,6 @@ namespace Org.Kingswell.Peter
             MULTIPLICATION
         }
 
-
         public StringNumber StringNumber { get; }
 
         internal StringNumberImplementation(StringNumber s)

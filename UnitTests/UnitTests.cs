@@ -50,5 +50,11 @@ namespace Org.Kingswell.Peter.UnitTests
             Assert.Equal("xxx", (string)(new StringNumber("aaa") * new StringNumber("aaa")));
             Assert.Equal("24642", (string)(new StringNumber("111") * new StringNumber("222")));
         }
+
+        [Fact]
+        public void UserSpecifiedCharacterTest()
+        {
+            Assert.Equal("qqqq", (string)(new StringNumber("aaaa", 'q') + new StringNumber("1234")));
+        }
     }
 }
