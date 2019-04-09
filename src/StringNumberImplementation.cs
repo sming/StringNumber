@@ -8,8 +8,8 @@ using System.Text;
 
 namespace Org.Kingswell.Peter
 {
-
-    // Pimpl idiom to hide implementation
+    // StringNumberImplementation is an instance of the PIMPL idiom, which hides a libary's
+    // implementation from users.
     class StringNumberImplementation
     {
         internal enum Operation
