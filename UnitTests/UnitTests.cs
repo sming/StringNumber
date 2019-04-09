@@ -10,12 +10,12 @@ namespace Org.Kingswell.Peter.UnitTests
         [Fact]
         public void ConvertStringToBigIntTest()
         {
-            Assert.Equal(123, StringNumber.convertStringToBigInt("123"));
-            Assert.Equal(1, StringNumber.convertStringToBigInt("1"));
-            Assert.Equal(0, StringNumber.convertStringToBigInt("0"));
-            Assert.Equal(int.MaxValue, StringNumber.convertStringToBigInt("2147483647"));
-            Assert.Equal(long.MaxValue, StringNumber.convertStringToBigInt("9223372036854775807"));
-            Assert.Equal(BigInteger.Parse("33333333333333333333"), StringNumber.convertStringToBigInt("33333333333333333333"));
+            Assert.Equal(123, StringNumberImplementation.convertStringToBigInt("123"));
+            Assert.Equal(1, StringNumberImplementation.convertStringToBigInt("1"));
+            Assert.Equal(0, StringNumberImplementation.convertStringToBigInt("0"));
+            Assert.Equal(int.MaxValue, StringNumberImplementation.convertStringToBigInt("2147483647"));
+            Assert.Equal(long.MaxValue, StringNumberImplementation.convertStringToBigInt("9223372036854775807"));
+            Assert.Equal(BigInteger.Parse("33333333333333333333"), StringNumberImplementation.convertStringToBigInt("33333333333333333333"));
         }
 
         [Fact]
