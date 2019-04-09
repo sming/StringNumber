@@ -9,12 +9,15 @@ using System.Text;
 namespace Org.Kingswell.Peter
 {
     /*
-    Represents an aritrarily large number as a string. Only the digits 0-9 are considered 'numeric'. All other characters e.g. '.', '-', 'z', are replaced as follows:
+    Represents an aritrarily large number as a string. Only the digits 0-9 are considered 'numeric'. All other characters e.g. '.', '-', 'z', are replaced as follows (consider this a functional
+    contract):
     1. If a StringNumber object is cast to a BigInteger, the non-digit characters are converted to 
     zeros. E.g. "1234" -> 1234, "1a3" -> 103, "2a1a3" -> 20103.
-    2. If a StringNumber object is added with another, the non-digits are again replaced
-    by zeros, the two numbers added and then any 'columns' with a non-digit are replaced with (by
-    default) the char 'x'. Examples:
+    2. If a StringNumber object is added with another, the non-digits are again replaced by zeros, the 
+    two numbers added and then any 'columns' with a non-digit are replaced with (by default) the char
+    'x'. 
+    
+    Examples:
     123 + 
     123
     = 246
@@ -30,6 +33,19 @@ namespace Org.Kingswell.Peter
 
     To create a StringNumber, simply 'new' one up with a numeric type parameter or string. You can
     override the 'x' char replacement by passing that as the second argument in the constructor.
+
+    To Add and Multiply them, use the + and * operators respectively e.g.
+    var oneHundred = new StringNumber("100");
+    var twoHundred = new StringNumber("200");
+    var threeHundred = oneHundred + twoHundred;
+
+    The conversion operators string and BigInteger can be used to get said types "out of" a 
+    StringNumber e.g. for 'string'
+    var oneHundred = new StringNumber("100");
+    string s = (string)oneHundred;
+    [ OR string s = oneHundred.ToString(); ]
+
+    NOTE that StringNumber objects are immutable - operators return new StringNumber objects. 
      */
     public class StringNumber
     {

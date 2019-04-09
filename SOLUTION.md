@@ -28,3 +28,7 @@ StringNumber class
 - declare our contract for handling negative input numbers
 
 I don't see the need for any other classes.
+
+## RUNNING THE CODE
+I used Visual Studio Code (free) on OS X. It detects the solution and project files and restores the necessary packages automatically. Just "open" the directory with the solution file in it. 
+Let me know if you can't get it running!

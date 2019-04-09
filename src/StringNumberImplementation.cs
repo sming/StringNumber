@@ -35,6 +35,22 @@ namespace Org.Kingswell.Peter
             return OperatorImplementation(a, b, Operation.MULTIPLICATION);
         }
 
+        /// <summary>
+        /// This method implements both multiplication and addition (determined via the 'o' operand).
+        /// It takes StringNumbers a and b and adds/multiplies them and returns a new StringNumber
+        /// with the result. It implements the contract defined in StringNumber class comment.
+        /// 
+        /// It basically works by calculating the numeric result and then stepping (a char at a time) through
+        /// the result, a and b simultaneously, checking for non-digits. If one is found for the 
+        /// current 'column', a.NonDigitReplacement is appended to a string result. Else the digit
+        /// in the numeric result is appended.
+        /// Finally the string result is converted into a new StringNumber (StringNumber's are 
+        /// immutable, remember) and returned.
+        /// </summary>
+        /// <param name="a">the first StringNumber to add/multiply</param>
+        /// <param name="b">the second StringNumber to add/multiply</param>
+        /// <param name="o">which operation to apply to a and b: Multiply or Add</param>
+        /// <returns></returns>
         internal static StringNumber OperatorImplementation(StringNumber a, StringNumber b, Operation o)
         {
             if (a == null || b == null)
