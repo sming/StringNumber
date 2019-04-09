@@ -21,7 +21,7 @@ namespace Org.Kingswell.Peter
         private const char DEFAULT_NON_DIGIT_REPLACEMENT = 'x';
         public char NonDigitReplacement { get; private set; }
         public string InitialValue { get; private set; }
-        private StringNumber() { /* this is intentionally private to prevent post-construction assignment */ }
+        private StringNumber() { /* this is intentionally private to prevent default construction */ }
 
         public StringNumber(string s, char nonDigitReplacement = DEFAULT_NON_DIGIT_REPLACEMENT)
         {
@@ -115,9 +115,17 @@ namespace Org.Kingswell.Peter
             string resultStr = result.ToString("D" + maxLen);
 
             var sb = new StringBuilder(maxLen);
+            
+            int aOffset = maxLen - aLen;
+            int bOffset = maxLen - bLen;
             for (int i = 0; i < maxLen; i++)
             {
-                if (IsNonDigit(a.InitialValue, aLen, i) || IsNonDigit(b.InitialValue, bLen, i))
+                int index = maxLen - i - 1;
+                if ((aLen > index) && !Char.IsDigit(a.InitialValue[i - aOffset]))
+                {
+                    sb.Append(a.NonDigitReplacement);
+                }
+                else if ((bLen > index) && !Char.IsDigit(b.InitialValue[i - bOffset]))
                 {
                     sb.Append(a.NonDigitReplacement);
                 }

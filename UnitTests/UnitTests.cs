@@ -45,7 +45,7 @@ namespace Org.Kingswell.Peter.UnitTests
         [Fact]
         public void MultiplicationOperatorTest()
         {
-            // Assert.Equal("x", (string)(new StringNumber("a") * new StringNumber("1")));
+            Assert.Equal("x", (string)(new StringNumber("a") * new StringNumber("1")));
             Assert.Equal("1xxx", (string)(new StringNumber("a1a") * new StringNumber("1a1")));
             Assert.Equal("xxx", (string)(new StringNumber("aaa") * new StringNumber("aaa")));
             Assert.Equal("24642", (string)(new StringNumber("111") * new StringNumber("222")));
