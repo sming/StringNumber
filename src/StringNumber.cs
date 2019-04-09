@@ -12,6 +12,12 @@ namespace Org.Kingswell.Peter
     // TODO use Pimpl idiom to hide implementation
     public class StringNumber
     {
+        private enum Operation
+        {
+            ADDITION,
+            MULTIPLICATION
+        }
+
         private const char DEFAULT_NON_DIGIT_REPLACEMENT = 'x';
         public char NonDigitReplacement { get; private set; }
         public string InitialValue { get; private set; }
@@ -55,9 +61,7 @@ namespace Org.Kingswell.Peter
             InitialValue = n.ToString();
         }
 
-        // public static explicit operator int(StringNumber s) => (int)s.ToNumber();
-        public static explicit operator BigInteger(StringNumber s) => (int)s.ToNumber();
-
+        public static explicit operator BigInteger(StringNumber s) => s.ToNumber();
 
         public override string ToString()
         {
@@ -87,21 +91,31 @@ namespace Org.Kingswell.Peter
 
         public static StringNumber operator +(StringNumber a, StringNumber b)
         {
+            return OperatorImplementation(a, b, Operation.ADDITION);
+        }
+
+        public static StringNumber operator *(StringNumber a, StringNumber b)
+        {
+            return OperatorImplementation(a, b, Operation.MULTIPLICATION);
+        }
+
+        private static StringNumber OperatorImplementation(StringNumber a, StringNumber b, Operation o)
+        {
             if (a == null || b == null)
                 return null;
 
             var aNum = (BigInteger)a;
             var bNum = (BigInteger)b;
-            var result = aNum + bNum;
+            var result = (o == Operation.ADDITION) ? aNum + bNum : aNum * bNum;
 
             int aLen = a.InitialValue.Length;
             int bLen = b.InitialValue.Length;
-            int longestLength = Math.Max(aLen, bLen);
+            int maxLen = Math.Max(result.ToString().Length, Math.Max(aLen, bLen));
 
-            string resultStr = result.ToString("D" + longestLength);
+            string resultStr = result.ToString("D" + maxLen);
 
-            var sb = new StringBuilder(longestLength);
-            for (int i = 0; i < longestLength; i++)
+            var sb = new StringBuilder(maxLen);
+            for (int i = 0; i < maxLen; i++)
             {
                 if (IsNonDigit(a.InitialValue, aLen, i) || IsNonDigit(b.InitialValue, bLen, i))
                 {
@@ -111,7 +125,7 @@ namespace Org.Kingswell.Peter
                 {
                     sb.Append(resultStr[i]);
                 }
-             }
+            }
 
             return new StringNumber(sb.ToString(), a.NonDigitReplacement);
         }
